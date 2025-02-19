@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://c384itwib7yio"]
+
+[ext_resource type="Script" path="res://scripts/paint_window.gd" id="1_x5dld"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_x5dld")
+
+[node name="Background" type="TextureRect" parent="."]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 500.0
+offset_bottom = 500.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="Ebene1" type="TextureRect" parent="."]
+z_index = 1
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 500.0
+offset_bottom = 500.0
+grow_horizontal = 2
+grow_vertical = 2
