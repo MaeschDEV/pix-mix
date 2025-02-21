@@ -80,20 +80,3 @@ func _setBackground() -> void:
 	backgroundTexture.update(backgroundImage)
 	background.texture = backgroundTexture
 	texture.update(image)
-
-func _process(delta: float) -> void:
-	_resizeCanvas()
-
-func _resizeCanvas() -> void:
-	var screen_size = get_viewport_rect().size
-	var base_resolution = Vector2(1152, 648)
-	var scale_factor = min(screen_size.x / base_resolution.x, screen_size.y / base_resolution.y)
-
-	
-	var new_size = Vector2(500, 500) * scale_factor
-	
-	background.size = new_size
-	ebeneOne.size = new_size
-	
-	background.position = (screen_size - new_size) / 2
-	ebeneOne.position = (screen_size - new_size) / 2

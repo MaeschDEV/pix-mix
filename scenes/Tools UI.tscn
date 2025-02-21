@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://q46nbajyyr80"]
+
+[ext_resource type="Texture2D" uid="uid://bcjgg813f44mp" path="res://graphics/Pencil.png" id="1_rkuxv"]
+[ext_resource type="Texture2D" uid="uid://grq772nh0jh7" path="res://graphics/Eraser.png" id="2_d56b7"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 100.0
+offset_top = -137.5
+offset_right = 175.0
+offset_bottom = -62.5
+grow_vertical = 2
+
+[node name="TextureButton" type="TextureButton" parent="HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+texture_normal = ExtResource("1_rkuxv")
+stretch_mode = 0
+
+[node name="TextureButton2" type="TextureButton" parent="HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+texture_normal = ExtResource("2_d56b7")
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
