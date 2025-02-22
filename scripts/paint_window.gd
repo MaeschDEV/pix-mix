@@ -1,7 +1,10 @@
 extends Node2D
 
-var size_x = 32
-var size_y = 32
+enum STATE {DRAW, ERASE, PICKING}
+var current_state
+
+var size_x = 16
+var size_y = 16
 
 var background
 var ebeneOne
@@ -13,6 +16,9 @@ var image = Image.create_empty(size_x, size_y, false, Image.FORMAT_RGBA8)
 var texture = ImageTexture.create_from_image(image)
 var drawing = false
 var erasing = false
+var picking = false
+
+var color = Color(0, 0, 0, 1)
 
 func _ready() -> void:
 	background = $Background
@@ -24,15 +30,48 @@ func _ready() -> void:
 	ebeneOne.texture = texture
 	_setBackground()
 	
+	Global.color_changed.connect(Callable(self, "_on_color_changed"))
+	Global.draw.connect(Callable(self, "_on_draw"))
+	Global.erase.connect(Callable(self, "_on_erase"))
+	Global.pick.connect(Callable(self, "_on_pick"))
+	
+	Global.export.connect(Callable(self, "_on_export"))
+	
+	current_state = STATE.DRAW
+	
+	Global.ui_scene.get_node("ColorPicker").color = Color(0, 0, 0, 1)
+
 func _input(event) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			drawing = event.pressed
+			if (current_state == STATE.DRAW):
+				drawing = event.pressed
+				erasing = false
+				picking = false
+			elif (current_state == STATE.ERASE):
+				erasing = event.pressed
+				drawing = false
+				picking = false
+			elif (current_state == STATE.PICKING):
+				picking = event.pressed
+				drawing = false
+				erasing = false
+			else:
+				drawing = false
+				erasing = false
+				picking = false
 		
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			erasing = event.pressed
+			if (current_state == STATE.DRAW):
+				erasing = event.pressed
+				drawing = false
+				picking = false
+			else:
+				drawing = false
+				erasing = false
+				picking = false
 	
-	if event is InputEventMouseMotion and drawing:
+	if drawing:
 		var mouse_pos = get_global_mouse_position() - ebeneOne.global_position
 		
 		var scale_x = size_x / ebeneOne.size.x
@@ -42,10 +81,10 @@ func _input(event) -> void:
 		var y = int(mouse_pos.y * scale_y)
 		
 		if x >= 0 and x < size_x and y >= 0 and y < size_y:
-			image.set_pixel(x, y, Color(0, 0, 0, 1))
+			image.set_pixel(x, y, color)
 			texture.update(image)
 	
-	if event is InputEventMouseMotion and erasing:
+	if erasing:
 		var mouse_pos = get_global_mouse_position() - ebeneOne.global_position
 		
 		var scale_x = size_x / ebeneOne.size.x
@@ -57,6 +96,22 @@ func _input(event) -> void:
 		if x >= 0 and x < size_x and y >= 0 and y < size_y:
 			image.set_pixel(x, y, Color(0, 0, 0, 0))
 			texture.update(image)
+	
+	if picking:
+		var mouse_pos = get_global_mouse_position() - ebeneOne.global_position
+		
+		var scale_x = size_x / ebeneOne.size.x
+		var scale_y = size_y / ebeneOne.size.y
+		
+		var x = int(mouse_pos.x * scale_x)
+		var y = int(mouse_pos.y * scale_y)
+		
+		if x >= 0 and x < size_x and y >= 0 and y < size_y:
+			var pixel = image.get_pixel(x, y)
+			
+			Global.ui_scene.get_node("ColorPicker").color = pixel
+			
+			color = pixel
 
 func _setBackground() -> void:
 	var useLightGrey = true
@@ -75,8 +130,41 @@ func _setBackground() -> void:
 	
 	for x in size_x:
 		for y in size_y:
-			image.set_pixel(x, y, Color(1, 0, 0, 0))
+			image.set_pixel(x, y, Color(0, 0, 0, 0))
 	
 	backgroundTexture.update(backgroundImage)
 	background.texture = backgroundTexture
 	texture.update(image)
+
+func _process(delta: float) -> void:
+	_resizeCanvas()
+
+func _resizeCanvas() -> void:
+	var screen_size = get_viewport_rect().size
+	var base_resolution = Vector2(1152, 648)
+	var scale_factor = min(screen_size.x / base_resolution.x, screen_size.y / base_resolution.y)
+
+	
+	var new_size = Vector2(500, 500) * scale_factor
+	
+	background.size = new_size
+	ebeneOne.size = new_size
+	
+	background.position = (screen_size - new_size) / 2
+	ebeneOne.position = (screen_size - new_size) / 2
+
+func _on_color_changed(newColor: Color):	
+	color = newColor
+
+func _on_draw():	
+	current_state = STATE.DRAW
+
+func _on_erase():	
+	current_state = STATE.ERASE
+
+func _on_pick():
+	current_state = STATE.PICKING
+
+func _on_export():
+	print("Exported!")
+	image.save_png("res://export/saved_image.png")

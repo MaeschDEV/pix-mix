@@ -1,8 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://q46nbajyyr80"]
+[gd_scene load_steps=14 format=3 uid="uid://q46nbajyyr80"]
 
+[ext_resource type="Texture2D" uid="uid://br445084bsa2u" path="res://graphics/Button Normal.png" id="1_2cohc"]
+[ext_resource type="Script" path="res://scenes/tools_ui.gd" id="1_3sr1c"]
 [ext_resource type="Texture2D" uid="uid://bcjgg813f44mp" path="res://graphics/Pencil.png" id="1_rkuxv"]
 [ext_resource type="Texture2D" uid="uid://grq772nh0jh7" path="res://graphics/Eraser.png" id="2_d56b7"]
+[ext_resource type="Texture2D" uid="uid://ghm7wgbvnkw1" path="res://graphics/Button Pressed.png" id="2_heocp"]
 [ext_resource type="Texture2D" uid="uid://daatkfiu0ujue" path="res://graphics/Eyedropper.png" id="3_7mnk3"]
+[ext_resource type="Texture2D" uid="uid://botejurnumfgy" path="res://graphics/Bucket.png" id="6_gvi87"]
+[ext_resource type="Texture2D" uid="uid://cqlodeupl2g2" path="res://graphics/Line.png" id="7_6vqou"]
+[ext_resource type="Texture2D" uid="uid://byvsgcmo8n5tc" path="res://graphics/Square.png" id="8_5ef0i"]
+[ext_resource type="Texture2D" uid="uid://cpd78tcras28r" path="res://graphics/Circle.png" id="9_852w6"]
+[ext_resource type="Texture2D" uid="uid://cktfjtrkthfk0" path="res://graphics/Select.png" id="10_nyb0h"]
+[ext_resource type="Texture2D" uid="uid://0hxwhlip6mb5" path="res://graphics/Color.png" id="11_bshbs"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_0cbaf"]
+resource_name = "toggle_buttons"
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -11,35 +23,209 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_3sr1c")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 100.0
-offset_top = -137.5
-offset_right = 175.0
-offset_bottom = -62.5
-grow_vertical = 2
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 75.0
+offset_right = 88.0
+offset_bottom = 487.0
 
-[node name="TextureButton" type="TextureButton" parent="HBoxContainer"]
+[node name="TextureButton" type="TextureButton" parent="VBoxContainer"]
 texture_filter = 1
-custom_minimum_size = Vector2(75, 75)
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-texture_normal = ExtResource("1_rkuxv")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_0cbaf")
+texture_normal = ExtResource("1_2cohc")
+texture_pressed = ExtResource("2_heocp")
+texture_hover = ExtResource("2_heocp")
 stretch_mode = 0
 
-[node name="TextureButton2" type="TextureButton" parent="HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TextureButton"]
 texture_filter = 1
-custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_rkuxv")
+
+[node name="TextureButton2" type="TextureButton" parent="VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-texture_normal = ExtResource("2_d56b7")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_0cbaf")
+texture_normal = ExtResource("1_2cohc")
+texture_pressed = ExtResource("2_heocp")
+texture_hover = ExtResource("2_heocp")
 stretch_mode = 0
 
-[node name="TextureButton3" type="TextureButton" parent="HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TextureButton2"]
 texture_filter = 1
-custom_minimum_size = Vector2(75, 75)
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_d56b7")
+
+[node name="TextureButton3" type="TextureButton" parent="VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-texture_normal = ExtResource("3_7mnk3")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_0cbaf")
+texture_normal = ExtResource("1_2cohc")
+texture_pressed = ExtResource("2_heocp")
+texture_hover = ExtResource("2_heocp")
 stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TextureButton3"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_7mnk3")
+
+[node name="TextureButton4" type="TextureButton" parent="VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_0cbaf")
+texture_normal = ExtResource("1_2cohc")
+texture_pressed = ExtResource("2_heocp")
+texture_hover = ExtResource("2_heocp")
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TextureButton4"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("6_gvi87")
+
+[node name="TextureButton5" type="TextureButton" parent="VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_0cbaf")
+texture_normal = ExtResource("1_2cohc")
+texture_pressed = ExtResource("2_heocp")
+texture_hover = ExtResource("2_heocp")
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TextureButton5"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("7_6vqou")
+
+[node name="TextureButton6" type="TextureButton" parent="VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_0cbaf")
+texture_normal = ExtResource("1_2cohc")
+texture_pressed = ExtResource("2_heocp")
+texture_hover = ExtResource("2_heocp")
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TextureButton6"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("8_5ef0i")
+
+[node name="TextureButton7" type="TextureButton" parent="VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_0cbaf")
+texture_normal = ExtResource("1_2cohc")
+texture_pressed = ExtResource("2_heocp")
+texture_hover = ExtResource("2_heocp")
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TextureButton7"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("9_852w6")
+
+[node name="TextureButton8" type="TextureButton" parent="VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_0cbaf")
+texture_normal = ExtResource("1_2cohc")
+texture_pressed = ExtResource("2_heocp")
+texture_hover = ExtResource("2_heocp")
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TextureButton8"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("10_nyb0h")
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureButton9" type="TextureButton" parent="VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+texture_normal = ExtResource("1_2cohc")
+texture_pressed = ExtResource("2_heocp")
+texture_hover = ExtResource("2_heocp")
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TextureButton9"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 8.0
+offset_top = 7.0
+offset_right = 40.0
+offset_bottom = 39.0
+texture = ExtResource("11_bshbs")
+
+[node name="ColorPicker" type="ColorPicker" parent="."]
+layout_mode = 0
+offset_left = 963.0
+offset_top = 75.0
+offset_right = 1261.0
+offset_bottom = 651.0
+scale = Vector2(0.5, 0.5)
+deferred_mode = true
+sampler_visible = false
+color_modes_visible = false
+
+[connection signal="button_down" from="VBoxContainer/TextureButton" to="." method="_on_texture_button_button_down"]
+[connection signal="button_down" from="VBoxContainer/TextureButton2" to="." method="_on_texture_button_2_button_down"]
+[connection signal="button_down" from="VBoxContainer/TextureButton3" to="." method="_on_texture_button_3_button_down"]
+[connection signal="button_down" from="VBoxContainer/TextureButton9" to="." method="_on_texture_button_9_button_down"]
+[connection signal="color_changed" from="ColorPicker" to="." method="_on_color_picker_color_changed"]
