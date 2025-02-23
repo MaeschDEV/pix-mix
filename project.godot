@@ -22,3 +22,8 @@ Global="*res://scripts/Global.gd"
 [display]
 
 window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[gui]
+
+theme/custom_font="res://fonts/SMW.Monospace.ttf"

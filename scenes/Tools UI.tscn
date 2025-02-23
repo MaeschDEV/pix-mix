@@ -1,7 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://q46nbajyyr80"]
+[gd_scene load_steps=13 format=3 uid="uid://q46nbajyyr80"]
 
 [ext_resource type="Texture2D" uid="uid://br445084bsa2u" path="res://graphics/Button Normal.png" id="1_2cohc"]
-[ext_resource type="Script" path="res://scenes/tools_ui.gd" id="1_3sr1c"]
+[ext_resource type="Script" path="res://scripts/tools_ui.gd" id="1_3sr1c"]
 [ext_resource type="Texture2D" uid="uid://bcjgg813f44mp" path="res://graphics/Pencil.png" id="1_rkuxv"]
 [ext_resource type="Texture2D" uid="uid://grq772nh0jh7" path="res://graphics/Eraser.png" id="2_d56b7"]
 [ext_resource type="Texture2D" uid="uid://ghm7wgbvnkw1" path="res://graphics/Button Pressed.png" id="2_heocp"]
@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://byvsgcmo8n5tc" path="res://graphics/Square.png" id="8_5ef0i"]
 [ext_resource type="Texture2D" uid="uid://cpd78tcras28r" path="res://graphics/Circle.png" id="9_852w6"]
 [ext_resource type="Texture2D" uid="uid://cktfjtrkthfk0" path="res://graphics/Select.png" id="10_nyb0h"]
-[ext_resource type="Texture2D" uid="uid://0hxwhlip6mb5" path="res://graphics/Color.png" id="11_bshbs"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_0cbaf"]
 resource_name = "toggle_buttons"
@@ -26,11 +25,15 @@ grow_vertical = 2
 script = ExtResource("1_3sr1c")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_left = 40.0
-offset_top = 75.0
+offset_top = -236.0
 offset_right = 88.0
-offset_bottom = 487.0
+offset_bottom = 236.0
+grow_vertical = 2
 
 [node name="TextureButton" type="TextureButton" parent="VBoxContainer"]
 texture_filter = 1
@@ -153,6 +156,7 @@ offset_bottom = 40.0
 texture = ExtResource("8_5ef0i")
 
 [node name="TextureButton7" type="TextureButton" parent="VBoxContainer"]
+visible = false
 texture_filter = 1
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -173,6 +177,7 @@ offset_bottom = 40.0
 texture = ExtResource("9_852w6")
 
 [node name="TextureButton8" type="TextureButton" parent="VBoxContainer"]
+visible = false
 texture_filter = 1
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -192,33 +197,19 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("10_nyb0h")
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="TextureButton9" type="TextureButton" parent="VBoxContainer"]
-texture_filter = 1
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-texture_normal = ExtResource("1_2cohc")
-texture_pressed = ExtResource("2_heocp")
-texture_hover = ExtResource("2_heocp")
-stretch_mode = 0
-
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/TextureButton9"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 8.0
-offset_top = 7.0
-offset_right = 40.0
-offset_bottom = 39.0
-texture = ExtResource("11_bshbs")
-
 [node name="ColorPicker" type="ColorPicker" parent="."]
-layout_mode = 0
-offset_left = 963.0
-offset_top = 75.0
-offset_right = 1261.0
-offset_bottom = 651.0
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -189.0
+offset_top = -236.0
+offset_right = 109.0
+offset_bottom = 340.0
+grow_horizontal = 0
+grow_vertical = 2
 scale = Vector2(0.5, 0.5)
 deferred_mode = true
 sampler_visible = false
@@ -228,5 +219,6 @@ color_modes_visible = false
 [connection signal="button_down" from="VBoxContainer/TextureButton2" to="." method="_on_texture_button_2_button_down"]
 [connection signal="button_down" from="VBoxContainer/TextureButton3" to="." method="_on_texture_button_3_button_down"]
 [connection signal="button_down" from="VBoxContainer/TextureButton4" to="." method="_on_texture_button_4_button_down"]
-[connection signal="button_down" from="VBoxContainer/TextureButton9" to="." method="_on_texture_button_9_button_down"]
+[connection signal="button_down" from="VBoxContainer/TextureButton5" to="." method="_on_texture_button_5_button_down"]
+[connection signal="button_down" from="VBoxContainer/TextureButton6" to="." method="_on_texture_button_6_button_down"]
 [connection signal="color_changed" from="ColorPicker" to="." method="_on_color_picker_color_changed"]
