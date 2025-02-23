@@ -27,3 +27,7 @@ window/stretch/aspect="expand"
 [gui]
 
 theme/custom_font="res://fonts/SMW.Monospace.ttf"
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0.235294, 0.313726, 0.392157, 1)

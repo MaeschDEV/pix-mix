@@ -7,18 +7,6 @@
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_x5dld")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_right = 1152.0
-offset_bottom = 648.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.235294, 0.313726, 0.392157, 1)
-
 [node name="Background" type="TextureRect" parent="."]
 texture_filter = 1
 anchors_preset = 8
