@@ -266,10 +266,6 @@ func _setBackground() -> void:
 			else:
 				backgroundImage.set_pixel(x, y, darkGrey)
 	
-	for x in size_x:
-		for y in size_y:
-			image.set_pixel(x, y, Color(0, 0, 0, 0))
-	
 	backgroundTexture.update(backgroundImage)
 	background.texture = backgroundTexture
 	texture.update(image)

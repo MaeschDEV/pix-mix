@@ -13,7 +13,7 @@ config_version=5
 config/name="Pix-Mix"
 run/main_scene="res://scenes/paint_window.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://export/wizard.png"
 
 [autoload]
 
