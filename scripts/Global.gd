@@ -7,6 +7,8 @@ signal fill
 signal line
 signal rect
 
+signal newImage(size: Vector2)
+
 signal delete
 signal export(dir: String)
 

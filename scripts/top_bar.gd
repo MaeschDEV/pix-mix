@@ -50,7 +50,7 @@ func _input(event: InputEvent) -> void:
 
 func _on_file_item_selected(id):
 	match id:
-		0: print("New file")
+		0: _new_file()
 		1: print("Open file")
 		2: print("Save file")
 		3: print("Save file as")
@@ -94,3 +94,12 @@ func _export_image():
 
 func _on_exported(dir: String):
 	Global.export.emit(dir)
+
+func _new_file():
+	$"New Image".show()
+
+func _on_new_image_confirmed() -> void:
+	var x = $"New Image/VBoxContainer/HBoxContainer/SpinBox".value
+	var y = $"New Image/VBoxContainer/HBoxContainer2/SpinBox".value
+	Global.newImage.emit(Vector2(x, y))
+	$"New Image".hide()
