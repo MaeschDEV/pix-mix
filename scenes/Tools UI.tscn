@@ -227,5 +227,6 @@ color_modes_visible = false
 [connection signal="button_down" from="VBoxContainer/TextureButton" to="." method="_on_texture_button_button_down"]
 [connection signal="button_down" from="VBoxContainer/TextureButton2" to="." method="_on_texture_button_2_button_down"]
 [connection signal="button_down" from="VBoxContainer/TextureButton3" to="." method="_on_texture_button_3_button_down"]
+[connection signal="button_down" from="VBoxContainer/TextureButton4" to="." method="_on_texture_button_4_button_down"]
 [connection signal="button_down" from="VBoxContainer/TextureButton9" to="." method="_on_texture_button_9_button_down"]
 [connection signal="color_changed" from="ColorPicker" to="." method="_on_color_picker_color_changed"]

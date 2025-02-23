@@ -15,5 +15,8 @@ func _on_texture_button_2_button_down() -> void:
 func _on_texture_button_3_button_down() -> void:
 	Global.pick.emit()
 
+func _on_texture_button_4_button_down() -> void:
+	Global.fill.emit()
+
 func _on_texture_button_9_button_down() -> void:
 	Global.export.emit()

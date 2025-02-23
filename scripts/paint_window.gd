@@ -1,6 +1,6 @@
 extends Node2D
 
-enum STATE {DRAW, ERASE, PICKING}
+enum STATE {DRAW, ERASE, PICKING, FILL}
 var current_state
 
 var size_x = 16
@@ -17,6 +17,7 @@ var texture = ImageTexture.create_from_image(image)
 var drawing = false
 var erasing = false
 var picking = false
+var filling = false
 
 var color = Color(0, 0, 0, 1)
 
@@ -34,6 +35,7 @@ func _ready() -> void:
 	Global.draw.connect(Callable(self, "_on_draw"))
 	Global.erase.connect(Callable(self, "_on_erase"))
 	Global.pick.connect(Callable(self, "_on_pick"))
+	Global.fill.connect(Callable(self, "_on_fill"))
 	
 	Global.export.connect(Callable(self, "_on_export"))
 	
@@ -48,28 +50,39 @@ func _input(event) -> void:
 				drawing = event.pressed
 				erasing = false
 				picking = false
+				filling = false
 			elif (current_state == STATE.ERASE):
 				erasing = event.pressed
 				drawing = false
 				picking = false
+				filling = false
 			elif (current_state == STATE.PICKING):
 				picking = event.pressed
 				drawing = false
 				erasing = false
+				filling = false
+			elif (current_state == STATE.FILL):
+				filling = event.pressed
+				drawing = false
+				erasing = false
+				picking = false
 			else:
 				drawing = false
 				erasing = false
 				picking = false
+				filling = false
 		
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			if (current_state == STATE.DRAW):
 				erasing = event.pressed
 				drawing = false
 				picking = false
+				filling = false
 			else:
 				drawing = false
 				erasing = false
 				picking = false
+				filling = false
 	
 	if drawing:
 		var mouse_pos = get_global_mouse_position() - ebeneOne.global_position
@@ -112,6 +125,29 @@ func _input(event) -> void:
 			Global.ui_scene.get_node("ColorPicker").color = pixel
 			
 			color = pixel
+	
+	if filling:
+		var mouse_pos = get_global_mouse_position() - ebeneOne.global_position
+		
+		var scale_x = size_x / ebeneOne.size.x
+		var scale_y = size_y / ebeneOne.size.y
+		
+		var x = int(mouse_pos.x * scale_x)
+		var y = int(mouse_pos.y * scale_y)
+		
+		if x >= 0 and x < size_x and y >= 0 and y < size_y:
+			var target_color = image.get_pixel(x, y)
+			
+			image.set_pixel(x, y, color)
+			
+			var comparisonColor = image.get_pixel(x, y)
+			
+			if (!target_color.is_equal_approx(comparisonColor)):
+				print("Not the same!")
+				image.set_pixel(x, y, target_color)
+				_flood_fill(x, y, target_color, color)
+			else:
+				image.set_pixel(x, y, target_color)
 
 func _setBackground() -> void:
 	var useLightGrey = true
@@ -153,6 +189,28 @@ func _resizeCanvas() -> void:
 	background.position = (screen_size - new_size) / 2
 	ebeneOne.position = (screen_size - new_size) / 2
 
+func _flood_fill(x: int, y: int, target_color: Color, fill_color: Color) -> void:
+	if (x < 0 or x >= size_x or y < 0 or y >= size_y):
+		return
+	
+	var current_color = image.get_pixel(x, y)
+	
+	if (current_color != target_color or current_color == fill_color):
+		return
+	
+	image.set_pixel(x, y, fill_color)
+	texture.update(image)
+	
+	if (size_x <= 32):
+		await get_tree().create_timer(0.01).timeout
+	else:
+		await get_tree().create_timer(0).timeout
+	
+	_flood_fill(x + 1, y, target_color, fill_color)
+	_flood_fill(x - 1, y, target_color, fill_color)
+	_flood_fill(x, y + 1, target_color, fill_color)
+	_flood_fill(x, y - 1, target_color, fill_color)
+
 func _on_color_changed(newColor: Color):	
 	color = newColor
 
@@ -164,6 +222,9 @@ func _on_erase():
 
 func _on_pick():
 	current_state = STATE.PICKING
+
+func _on_fill():
+	current_state = STATE.FILL
 
 func _on_export():
 	print("Exported!")

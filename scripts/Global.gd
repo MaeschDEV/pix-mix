@@ -3,6 +3,7 @@ extends Node
 signal draw
 signal erase
 signal pick
+signal fill
 
 signal export
 
