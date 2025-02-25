@@ -11,9 +11,11 @@ config_version=5
 [application]
 
 config/name="Pix-Mix"
+config/version="1.0.0"
 run/main_scene="res://scenes/paint_window.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://export/wizard.png"
+config/icon="res://export/icon.png"
+config/windows_native_icon="res://export/icon.ico"
 
 [autoload]
 

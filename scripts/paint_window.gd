@@ -372,8 +372,8 @@ func _on_new_image(size: Vector2):
 	images.clear()
 	textures.clear()
 	
-	for i in layerAmount:
-		get_tree().get_first_node_in_group("TexRects").queue_free()
+	for i in get_tree().get_nodes_in_group("TexRects").size():
+		get_tree().get_nodes_in_group("TexRects")[i].queue_free()
 	
 	for i in layerAmount:
 		var tex_rect = TextureRect.new()
@@ -406,6 +406,9 @@ func _on_open_image(dir: String):
 	layers.clear()
 	images.clear()
 	textures.clear()
+	
+	for i in get_tree().get_nodes_in_group("TexRects").size():
+		get_tree().get_nodes_in_group("TexRects")[i].queue_free()
 	
 	for i in layerAmount:
 		var tex_rect = TextureRect.new()

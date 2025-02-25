@@ -20,6 +20,17 @@ func _ready() -> void:
 	edit_menu.get_popup().add_item("Delete       Ctrl+Del", 2)
 	
 	edit_menu.get_popup().id_pressed.connect(Callable(self, "_on_edit_item_selected"))
+	
+	var help_menu = $HBoxContainer/Help
+	help_menu.get_popup().add_item("Readme", 0)
+	help_menu.get_popup().add_separator()
+	help_menu.get_popup().add_item("Patreon", 1)
+	help_menu.get_popup().add_item("YouTube", 2)
+	help_menu.get_popup().add_item("Github", 3)
+	help_menu.get_popup().add_separator()
+	help_menu.get_popup().add_item("About", 4)
+	
+	help_menu.get_popup().id_pressed.connect(Callable(self, "_on_help_item_selected"))
 
 func _input(event: InputEvent) -> void:	
 	if (event is InputEventKey and event.is_pressed() and not event.keycode in pressed_keys):
@@ -54,6 +65,14 @@ func _on_edit_item_selected(id):
 		0: Global.undo.emit()
 		1: Global.redo.emit()
 		2: Global.delete.emit()
+
+func _on_help_item_selected(id):
+	match id:
+		0: OS.shell_open("https://github.com/MaeschDEV/pix-mix/blob/2cd2d641a6261d4d8a035c8ebbfde283d543db8b/README.md")
+		1: OS.shell_open("https://www.patreon.com/c/MaeschDEV")
+		2: OS.shell_open("https://www.youtube.com/@maeschdev")
+		3: OS.shell_open("https://github.com/MaeschDEV/pix-mix")
+		4: print("About")
 
 func _close_program():
 	Global.interactable.emit(false)
@@ -101,8 +120,8 @@ func _on_new_image_canceled() -> void:
 
 func _on_new_image_confirmed() -> void:
 	Global.interactable.emit(true)
-	var x = $"New Image/VBoxContainer/HBoxContainer/SpinBox".value
-	var y = $"New Image/VBoxContainer/HBoxContainer2/SpinBox".value
+	var x = $"New Image/VBoxContainer/SpinBox".value
+	var y = $"New Image/VBoxContainer/SpinBox".value
 	Global.newImage.emit(Vector2(x, y))
 	$"New Image".hide()
 
