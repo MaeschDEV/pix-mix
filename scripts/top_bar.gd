@@ -14,9 +14,10 @@ func _ready() -> void:
 	file_menu.get_popup().id_pressed.connect(Callable(self, "_on_file_item_selected"))
 	
 	var edit_menu = $HBoxContainer/Edit
-	edit_menu.get_popup().add_item("Delete       Ctrl+Del", 0)
+	edit_menu.get_popup().add_item("Undo         Ctrl+Z", 0)
+	edit_menu.get_popup().add_item("Redo         Ctrl+Y", 1)
 	edit_menu.get_popup().add_separator()
-	edit_menu.get_popup().add_item("Preferences  Ctrl+K", 1)
+	edit_menu.get_popup().add_item("Delete       Ctrl+Del", 2)
 	
 	edit_menu.get_popup().id_pressed.connect(Callable(self, "_on_edit_item_selected"))
 
@@ -31,10 +32,13 @@ func _input(event: InputEvent) -> void:
 			_on_file_item_selected(2)
 		elif (event.ctrl_pressed and event.keycode == KEY_Q):
 			_on_file_item_selected(3)
-		elif (event.ctrl_pressed and event.keycode == KEY_DELETE):
+		elif (event.ctrl_pressed and event.keycode == KEY_Z):
 			_on_edit_item_selected(0)
-		elif (event.ctrl_pressed and event.keycode == KEY_K):
+		elif (event.ctrl_pressed and event.keycode == KEY_Y):
 			_on_edit_item_selected(1)
+		elif (event.ctrl_pressed and event.keycode == KEY_DELETE):
+			_on_edit_item_selected(2)
+		
 	elif (event is InputEventKey and not event.is_pressed() and event.keycode in pressed_keys):
 		pressed_keys.erase(event.keycode)
 
@@ -47,8 +51,9 @@ func _on_file_item_selected(id):
 
 func _on_edit_item_selected(id):
 	match id:
-		0: Global.delete.emit()
-		1: print("Open preferenes")
+		0: Global.undo.emit()
+		1: Global.redo.emit()
+		2: Global.delete.emit()
 
 func _close_program():
 	Global.interactable.emit(false)

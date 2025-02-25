@@ -3,7 +3,12 @@ extends Node2D
 enum STATE {DRAW, ERASE, PICKING, FILL, LINE, RECT}
 var current_state
 
+var mouseHold = false
+
 var interactable = true
+
+var undoHistory: Array[Image] = []
+var historyPointer = 0
 
 var size_x: int = 16
 var size_y: int = 16
@@ -27,6 +32,7 @@ func _ready() -> void:
 	for i in layerAmount:
 		var tex_rect = TextureRect.new()
 		tex_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		tex_rect.add_to_group("TexRects")
 		add_child(tex_rect)
 		layers.append(tex_rect)
 	
@@ -41,7 +47,11 @@ func _ready() -> void:
 	for i in layerAmount:
 		layers[i].texture = textures[i]
 	
+	undoHistory.append(images[1].duplicate())
 	_setBackground()
+	
+	Global.undo.connect(Callable(self, "_undo"))
+	Global.redo.connect(Callable(self, "_redo"))
 	
 	Global.interactable.connect(Callable(self, "_change_interaction"))
 	
@@ -93,6 +103,26 @@ func _process(delta: float) -> void:
 	
 	if (!interactable):
 		return
+	
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):		
+		mouseHold = true
+	
+	if !Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and !Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+		var mouse_pos = get_global_mouse_position() - layers[1].global_position
+		
+		var scale_x = size_x / layers[1].size.x
+		var scale_y = size_y / layers[1].size.y
+		
+		var x = int(mouse_pos.x * scale_x)
+		var y = int(mouse_pos.y * scale_y)
+		
+		if x >= 0 and x < size_x and y >= 0 and y < size_y and current_state != STATE.PICKING:
+			if mouseHold:
+				historyPointer += 1
+				undoHistory.resize(historyPointer + 1)
+				undoHistory[historyPointer] = images[1].duplicate()
+		
+		mouseHold = false
 	
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and current_state == STATE.DRAW:
 		var mouse_pos = get_global_mouse_position() - layers[1].global_position
@@ -217,6 +247,26 @@ func _process(delta: float) -> void:
 		textures[1].update(images[1])
 		layers[1].texture = textures[1]
 
+func _undo():
+	print("Undo")
+	print(historyPointer)
+	print(undoHistory)
+	if (historyPointer >= 1):
+		historyPointer -= 1
+		images[1] = undoHistory[historyPointer].duplicate()
+		textures[1].update(undoHistory[historyPointer].duplicate())
+		layers[1].texture = textures[1]
+
+func _redo():
+	print("Redo")
+	print(historyPointer)
+	print(undoHistory)
+	if (historyPointer <= undoHistory.size() - 2):
+		historyPointer += 1
+		images[1] = undoHistory[historyPointer].duplicate()
+		textures[1].update(undoHistory[historyPointer].duplicate())
+		layers[1].texture = textures[1]
+
 func _resizeCanvas() -> void:
 	var screen_size = get_viewport_rect().size
 	var base_resolution = Vector2(1152, 648)
@@ -323,8 +373,12 @@ func _on_new_image(size: Vector2):
 	textures.clear()
 	
 	for i in layerAmount:
+		get_tree().get_first_node_in_group("TexRects").queue_free()
+	
+	for i in layerAmount:
 		var tex_rect = TextureRect.new()
 		tex_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		tex_rect.add_to_group("TexRects")
 		add_child(tex_rect)
 		layers.append(tex_rect)
 	
@@ -339,6 +393,10 @@ func _on_new_image(size: Vector2):
 	for i in layerAmount:
 		layers[i].texture = textures[i]
 	
+	undoHistory.clear()
+	historyPointer = 0
+	
+	undoHistory.append(images[1].duplicate())
 	_setBackground()
 
 func _on_open_image(dir: String):
@@ -352,6 +410,7 @@ func _on_open_image(dir: String):
 	for i in layerAmount:
 		var tex_rect = TextureRect.new()
 		tex_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		tex_rect.add_to_group("TexRects")
 		add_child(tex_rect)
 		layers.append(tex_rect)
 	
@@ -370,6 +429,10 @@ func _on_open_image(dir: String):
 	for i in layerAmount:
 		layers[i].texture = textures[i]
 	
+	undoHistory.clear()
+	historyPointer = 0
+	
+	undoHistory.append(images[1].duplicate())
 	_setBackground()
 
 func _on_delete():
@@ -377,6 +440,11 @@ func _on_delete():
 	images[1].fill(Color(0, 0, 0, 0))
 	textures[1].update(images[1])
 	layers[1].texture = textures[1]
+	
+	undoHistory.clear()
+	historyPointer = 0
+	
+	undoHistory.append(images[1].duplicate())
 
 func _on_export(dir: String):
 	print("Exported!")
@@ -395,7 +463,7 @@ func _show_preview():
 		var y = int(mouse_pos.y * scale_y)
 		
 		if x >= 0 and x < size_x and y >= 0 and y < size_y:
-			images[2].set_pixel(x, y, color)
+			images[2].set_pixel(x, y, Color(color.r, color.g, color.b, 0.75))
 			textures[2].update(images[2])
 			layers[2].texture = textures[2]
 		else:

@@ -2,6 +2,9 @@ extends Node
 
 signal interactable(yes: bool)
 
+signal undo
+signal redo
+
 signal draw
 signal erase
 signal pick
