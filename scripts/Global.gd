@@ -1,5 +1,7 @@
 extends Node
 
+signal interactable(yes: bool)
+
 signal draw
 signal erase
 signal pick
@@ -8,6 +10,7 @@ signal line
 signal rect
 
 signal newImage(size: Vector2)
+signal open(dir: String)
 
 signal delete
 signal export(dir: String)

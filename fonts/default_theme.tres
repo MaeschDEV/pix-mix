@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cqa1xl4k2sblw"]
+
+[ext_resource type="FontFile" uid="uid://tk8nsduqgwg3" path="res://fonts/PixMix.ttf" id="1_g0fxe"]
+
+[resource]
+default_font = ExtResource("1_g0fxe")
+default_font_size = 36

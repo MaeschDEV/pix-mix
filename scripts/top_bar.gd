@@ -7,18 +7,14 @@ func _ready() -> void:
 	file_menu.get_popup().add_item("New          Ctrl+N", 0)
 	file_menu.get_popup().add_item("Open         Ctrl+O", 1)
 	file_menu.get_popup().add_separator()
-	file_menu.get_popup().add_item("Save         Ctrl+S", 2)
-	file_menu.get_popup().add_item("Save As      Ctrl+Shift+S", 3)
-	file_menu.get_popup().add_item("Close        Ctrl+W", 4)
+	file_menu.get_popup().add_item("Export       Ctrl+E", 2)
 	file_menu.get_popup().add_separator()
-	file_menu.get_popup().add_item("Export       Ctrl+E", 5)
-	file_menu.get_popup().add_separator()
-	file_menu.get_popup().add_item("Exit         Ctrl+Q", 6)
+	file_menu.get_popup().add_item("Exit         Ctrl+Q", 3)
 	
 	file_menu.get_popup().id_pressed.connect(Callable(self, "_on_file_item_selected"))
 	
 	var edit_menu = $HBoxContainer/Edit
-	edit_menu.get_popup().add_item("Delete       Del", 0)
+	edit_menu.get_popup().add_item("Delete       Ctrl+Del", 0)
 	edit_menu.get_popup().add_separator()
 	edit_menu.get_popup().add_item("Preferences  Ctrl+K", 1)
 	
@@ -31,17 +27,11 @@ func _input(event: InputEvent) -> void:
 			_on_file_item_selected(0)
 		elif (event.ctrl_pressed and event.keycode == KEY_O):
 			_on_file_item_selected(1)
-		elif (event.ctrl_pressed and not event.shift_pressed and event.keycode == KEY_S):
-			_on_file_item_selected(2)
-		elif (event.ctrl_pressed and event.shift_pressed and event.keycode == KEY_S):
-			_on_file_item_selected(3)
-		elif (event.ctrl_pressed and event.keycode == KEY_W):
-			_on_file_item_selected(4)
 		elif (event.ctrl_pressed and event.keycode == KEY_E):
-			_on_file_item_selected(5)
+			_on_file_item_selected(2)
 		elif (event.ctrl_pressed and event.keycode == KEY_Q):
-			_on_file_item_selected(6)
-		elif (event.keycode == KEY_DELETE):
+			_on_file_item_selected(3)
+		elif (event.ctrl_pressed and event.keycode == KEY_DELETE):
 			_on_edit_item_selected(0)
 		elif (event.ctrl_pressed and event.keycode == KEY_K):
 			_on_edit_item_selected(1)
@@ -52,11 +42,8 @@ func _on_file_item_selected(id):
 	match id:
 		0: _new_file()
 		1: _open_file()
-		2: print("Save file")
-		3: print("Save file as")
-		4: print("Close window")
-		5: _export_image()
-		6: _close_program()
+		2: _export_image()
+		3: _close_program()
 
 func _on_edit_item_selected(id):
 	match id:
@@ -64,6 +51,7 @@ func _on_edit_item_selected(id):
 		1: print("Open preferenes")
 
 func _close_program():
+	Global.interactable.emit(false)
 	var dialog = ConfirmationDialog.new()
 	dialog.title = "Close program"
 	dialog.dialog_text = "Are you sure you want to close the program?\nAll usaved changes will be deleted!"
@@ -76,44 +64,57 @@ func _close_program():
 	dialog.show()
 
 func _canceled_closing():
-	pass
+	Global.interactable.emit(true)
 
 func _confirm_closing():
+	Global.interactable.emit(true)
 	get_tree().quit()
 
 func _export_image():
+	Global.interactable.emit(false)
 	var fileDialog = FileDialog.new()
 	fileDialog.title = "Export the image"
 	fileDialog.add_filter("*.png")
 	fileDialog.use_native_dialog = true
 	fileDialog.dialog_hide_on_ok = true
 	
+	fileDialog.canceled.connect(Callable(self, "_canceled_closing"))
 	fileDialog.file_selected.connect(Callable(self, "_on_exported"))
 	
 	fileDialog.show()
 
 func _on_exported(dir: String):
+	Global.interactable.emit(true)
 	Global.export.emit(dir)
 
 func _new_file():
+	Global.interactable.emit(false)
 	$"New Image".show()
 
+func _on_new_image_canceled() -> void:
+	Global.interactable.emit(true)
+
 func _on_new_image_confirmed() -> void:
+	Global.interactable.emit(true)
 	var x = $"New Image/VBoxContainer/HBoxContainer/SpinBox".value
 	var y = $"New Image/VBoxContainer/HBoxContainer2/SpinBox".value
 	Global.newImage.emit(Vector2(x, y))
 	$"New Image".hide()
 
 func _open_file():
+	Global.interactable.emit(false)
 	var openDialog = FileDialog.new()
 	openDialog.title = "Open Image"
+	openDialog.file_mode = 0
 	openDialog.add_filter("*.png, *.jpg")
 	openDialog.use_native_dialog = true
 	openDialog.dialog_hide_on_ok = true
 	
-	openDialog.file_selected.connect(Callable(self, "_on_exported"))
+	openDialog.canceled.connect(Callable(self, "_canceled_closing"))
+	openDialog.file_selected.connect(Callable(self, "_on_opened"))
 	
 	openDialog.show()
 
 func _on_opened(dir: String):
-	print(dir)
+	Global.interactable.emit(true)
+	Global.open.emit(dir)

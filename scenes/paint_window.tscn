@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c384itwib7yio"]
+[gd_scene load_steps=5 format=3 uid="uid://c384itwib7yio"]
 
 [ext_resource type="Script" path="res://scripts/paint_window.gd" id="1_x5dld"]
 [ext_resource type="PackedScene" uid="uid://q46nbajyyr80" path="res://scenes/Tools UI.tscn" id="2_fu0l6"]
 [ext_resource type="PackedScene" uid="uid://rfktnw72t53b" path="res://scenes/Top Bar.tscn" id="3_714xb"]
+[ext_resource type="Texture2D" uid="uid://fht7m0nka01e" path="res://graphics/border.png" id="4_cwnl7"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_x5dld")
@@ -24,3 +25,11 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_right = 1152.0
 offset_bottom = 75.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+offset_left = 347.0
+offset_top = 81.0
+offset_right = 847.0
+offset_bottom = 581.0
+texture = ExtResource("4_cwnl7")

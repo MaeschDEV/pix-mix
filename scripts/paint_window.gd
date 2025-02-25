@@ -3,6 +3,8 @@ extends Node2D
 enum STATE {DRAW, ERASE, PICKING, FILL, LINE, RECT}
 var current_state
 
+var interactable = true
+
 var size_x: int = 16
 var size_y: int = 16
 
@@ -41,6 +43,8 @@ func _ready() -> void:
 	
 	_setBackground()
 	
+	Global.interactable.connect(Callable(self, "_change_interaction"))
+	
 	Global.color_changed.connect(Callable(self, "_on_color_changed"))
 	Global.draw.connect(Callable(self, "_on_draw"))
 	Global.erase.connect(Callable(self, "_on_erase"))
@@ -50,6 +54,7 @@ func _ready() -> void:
 	Global.rect.connect(Callable(self, "_on_rect"))
 	
 	Global.newImage.connect(Callable(self, "_on_new_image"))
+	Global.open.connect(Callable(self, "_on_open_image"))
 	
 	Global.delete.connect(Callable(self, "_on_delete"))
 	Global.export.connect(Callable(self, "_on_export"))
@@ -57,8 +62,9 @@ func _ready() -> void:
 	current_state = STATE.DRAW
 	
 	Global.ui_scene.get_node("ColorPicker").color = Color(0, 0, 0, 1)
-	
-	
+
+func _change_interaction(yes: bool) -> void:
+	interactable = yes
 
 func _setBackground() -> void:
 	var useLightGrey = true
@@ -84,6 +90,9 @@ func _process(delta: float) -> void:
 	_resizeCanvas()
 	_show_preview()
 	_change_cursor()
+	
+	if (!interactable):
+		return
 	
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and current_state == STATE.DRAW:
 		var mouse_pos = get_global_mouse_position() - layers[1].global_position
@@ -215,14 +224,17 @@ func _resizeCanvas() -> void:
 
 	
 	var new_size = Vector2(500, 500) * scale_factor
+	var border_size = Vector2(507, 507) * scale_factor
 	
 	layers[0].size = new_size
 	layers[1].size = new_size
 	layers[2].size = new_size
+	$TextureRect.size = border_size
 	
 	layers[0].position = (screen_size - new_size) / 2
 	layers[1].position = (screen_size - new_size) / 2
 	layers[2].position = (screen_size - new_size) / 2
+	$TextureRect.position = (screen_size - border_size) / 2
 
 func _flood_fill(x: int, y: int, target_color: Color, fill_color: Color) -> void:
 	if (x < 0 or x >= size_x or y < 0 or y >= size_y):
@@ -318,6 +330,37 @@ func _on_new_image(size: Vector2):
 	
 	for i in layerAmount:
 		var image = Image.create_empty(size_x, size_y, false, Image.FORMAT_RGBA8)
+		images.append(image)
+	
+	for i in layerAmount:
+		var texture = ImageTexture.create_from_image(images[i])
+		textures.append(texture)
+	
+	for i in layerAmount:
+		layers[i].texture = textures[i]
+	
+	_setBackground()
+
+func _on_open_image(dir: String):
+	size_x = Image.load_from_file(dir).get_size().x
+	size_y = Image.load_from_file(dir).get_size().y
+	
+	layers.clear()
+	images.clear()
+	textures.clear()
+	
+	for i in layerAmount:
+		var tex_rect = TextureRect.new()
+		tex_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		add_child(tex_rect)
+		layers.append(tex_rect)
+	
+	for i in layerAmount:
+		var image
+		if (i != 1):
+			image = Image.create_empty(size_x, size_y, false, Image.FORMAT_RGBA8)
+		else:
+			image = Image.load_from_file(dir)
 		images.append(image)
 	
 	for i in layerAmount:

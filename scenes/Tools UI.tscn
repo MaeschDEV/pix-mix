@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://q46nbajyyr80"]
+[gd_scene load_steps=15 format=3 uid="uid://q46nbajyyr80"]
 
 [ext_resource type="Texture2D" uid="uid://br445084bsa2u" path="res://graphics/Button Normal.png" id="1_2cohc"]
 [ext_resource type="Script" path="res://scripts/tools_ui.gd" id="1_3sr1c"]
@@ -6,11 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://grq772nh0jh7" path="res://graphics/Eraser.png" id="2_d56b7"]
 [ext_resource type="Texture2D" uid="uid://ghm7wgbvnkw1" path="res://graphics/Button Pressed.png" id="2_heocp"]
 [ext_resource type="Texture2D" uid="uid://daatkfiu0ujue" path="res://graphics/Eyedropper.png" id="3_7mnk3"]
+[ext_resource type="Texture2D" uid="uid://jakr7g28ty5m" path="res://graphics/color_picker_border.png" id="3_mvuv2"]
 [ext_resource type="Texture2D" uid="uid://botejurnumfgy" path="res://graphics/Bucket.png" id="6_gvi87"]
 [ext_resource type="Texture2D" uid="uid://cqlodeupl2g2" path="res://graphics/Line.png" id="7_6vqou"]
 [ext_resource type="Texture2D" uid="uid://byvsgcmo8n5tc" path="res://graphics/Square.png" id="8_5ef0i"]
 [ext_resource type="Texture2D" uid="uid://cpd78tcras28r" path="res://graphics/Circle.png" id="9_852w6"]
 [ext_resource type="Texture2D" uid="uid://cktfjtrkthfk0" path="res://graphics/Select.png" id="10_nyb0h"]
+[ext_resource type="Texture2D" uid="uid://c4mmdv73b6hmo" path="res://graphics/border tools.png" id="12_5vjb3"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_0cbaf"]
 resource_name = "toggle_buttons"
@@ -24,15 +26,58 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3sr1c")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_vertical = 2
+texture = ExtResource("12_5vjb3")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_bottom = 250.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("12_5vjb3")
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -205.0
+offset_top = -146.0
+offset_right = -44.0
+offset_bottom = 146.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("3_mvuv2")
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 40.0
-offset_top = -236.0
-offset_right = 88.0
-offset_bottom = 236.0
+offset_left = 50.0
+offset_top = -154.0
+offset_right = 98.0
+offset_bottom = 154.0
 grow_vertical = 2
 
 [node name="TextureButton" type="TextureButton" parent="VBoxContainer"]
@@ -204,16 +249,24 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -189.0
-offset_top = -236.0
-offset_right = 109.0
-offset_bottom = 340.0
+offset_left = -199.0
+offset_top = -139.0
+offset_right = 99.0
+offset_bottom = 416.0
 grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
 deferred_mode = true
 sampler_visible = false
 color_modes_visible = false
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+color = Color(0, 0, 0, 0.196078)
 
 [connection signal="button_down" from="VBoxContainer/TextureButton" to="." method="_on_texture_button_button_down"]
 [connection signal="button_down" from="VBoxContainer/TextureButton2" to="." method="_on_texture_button_2_button_down"]
