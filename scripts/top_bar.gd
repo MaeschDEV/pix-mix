@@ -51,7 +51,7 @@ func _input(event: InputEvent) -> void:
 func _on_file_item_selected(id):
 	match id:
 		0: _new_file()
-		1: print("Open file")
+		1: _open_file()
 		2: print("Save file")
 		3: print("Save file as")
 		4: print("Close window")
@@ -103,3 +103,17 @@ func _on_new_image_confirmed() -> void:
 	var y = $"New Image/VBoxContainer/HBoxContainer2/SpinBox".value
 	Global.newImage.emit(Vector2(x, y))
 	$"New Image".hide()
+
+func _open_file():
+	var openDialog = FileDialog.new()
+	openDialog.title = "Open Image"
+	openDialog.add_filter("*.png, *.jpg")
+	openDialog.use_native_dialog = true
+	openDialog.dialog_hide_on_ok = true
+	
+	openDialog.file_selected.connect(Callable(self, "_on_exported"))
+	
+	openDialog.show()
+
+func _on_opened(dir: String):
+	print(dir)

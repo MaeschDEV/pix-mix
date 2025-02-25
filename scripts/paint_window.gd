@@ -3,8 +3,8 @@ extends Node2D
 enum STATE {DRAW, ERASE, PICKING, FILL, LINE, RECT}
 var current_state
 
-var size_x = 16
-var size_y = 16
+var size_x: int = 16
+var size_y: int = 16
 
 var layers: Array[TextureRect] = []
 var images: Array[Image] = []
@@ -15,6 +15,11 @@ var starting_point_exists = false
 var starting_point = Vector2(0, 0)
 
 var color = Color(0, 0, 0, 1)
+
+var cursor_pen = load("res://graphics/Pencil.png")
+var cursor_erasor = load("res://graphics/Eraser.png")
+var cursor_eyedropper = load("res://graphics/Eyedropper.png")
+var cursor_bucket = load("res://graphics/Bucket.png")
 
 func _ready() -> void:
 	for i in layerAmount:
@@ -61,7 +66,9 @@ func _setBackground() -> void:
 	var darkGrey = Color(0.5, 0.5, 0.5, 1)
 	
 	for x in size_x:
-		useLightGrey = !useLightGrey
+		if (size_y % 2 == 0):
+			useLightGrey = !useLightGrey
+			
 		for y in size_y:
 			useLightGrey = !useLightGrey
 			
@@ -75,6 +82,8 @@ func _setBackground() -> void:
 
 func _process(delta: float) -> void:
 	_resizeCanvas()
+	_show_preview()
+	_change_cursor()
 	
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and current_state == STATE.DRAW:
 		var mouse_pos = get_global_mouse_position() - layers[1].global_position
@@ -329,3 +338,66 @@ func _on_delete():
 func _on_export(dir: String):
 	print("Exported!")
 	images[1].save_png(dir)
+
+func _show_preview():
+	if (current_state == STATE.DRAW or current_state == STATE.FILL):
+		images[2].fill(Color(0, 0, 0, 0))
+		
+		var mouse_pos = get_global_mouse_position() - layers[1].global_position
+		
+		var scale_x = size_x / layers[1].size.x
+		var scale_y = size_y / layers[1].size.y
+		
+		var x = int(mouse_pos.x * scale_x)
+		var y = int(mouse_pos.y * scale_y)
+		
+		if x >= 0 and x < size_x and y >= 0 and y < size_y:
+			images[2].set_pixel(x, y, color)
+			textures[2].update(images[2])
+			layers[2].texture = textures[2]
+		else:
+			images[2].fill(Color(0, 0, 0, 0))
+			textures[2].update(images[2])
+			layers[2].texture = textures[2]
+	
+	if (current_state == STATE.ERASE):
+		images[2].fill(Color(0, 0, 0, 0))
+		
+		var mouse_pos = get_global_mouse_position() - layers[1].global_position
+		
+		var scale_x = size_x / layers[1].size.x
+		var scale_y = size_y / layers[1].size.y
+		
+		var x = int(mouse_pos.x * scale_x)
+		var y = int(mouse_pos.y * scale_y)
+		
+		if x >= 0 and x < size_x and y >= 0 and y < size_y:
+			images[2].set_pixel(x, y, Color(1, 1, 1, 1))
+			textures[2].update(images[2])
+			layers[2].texture = textures[2]
+		else:
+			images[2].fill(Color(0, 0, 0, 0))
+			textures[2].update(images[2])
+			layers[2].texture = textures[2]
+
+func _change_cursor():
+	var mouse_pos = get_global_mouse_position() - layers[1].global_position
+		
+	var scale_x = size_x / layers[1].size.x
+	var scale_y = size_y / layers[1].size.y
+	
+	var x = int(mouse_pos.x * scale_x)
+	var y = int(mouse_pos.y * scale_y)
+	
+	if x >= 0 and x < size_x and y >= 0 and y < size_y:
+		match current_state:
+			STATE.DRAW:
+				Input.set_custom_mouse_cursor(cursor_pen, Input.CURSOR_ARROW, Vector2(0, 12))
+			STATE.ERASE:
+				Input.set_custom_mouse_cursor(cursor_erasor, Input.CURSOR_ARROW, Vector2(0, 12))
+			STATE.PICKING:
+				Input.set_custom_mouse_cursor(cursor_eyedropper, Input.CURSOR_ARROW, Vector2(0, 12))
+			STATE.FILL:
+				Input.set_custom_mouse_cursor(cursor_bucket, Input.CURSOR_ARROW, Vector2(0, 12))
+	else:
+		Input.set_custom_mouse_cursor(null)
