@@ -9,7 +9,8 @@ func _ready() -> void:
 	file_menu.get_popup().add_separator()
 	file_menu.get_popup().add_item("Export       Ctrl+E", 2)
 	file_menu.get_popup().add_separator()
-	file_menu.get_popup().add_item("Exit         Ctrl+Q", 3)
+	file_menu.get_popup().add_item("Close        Ctrl+Q", 3)
+	file_menu.get_popup().add_item("Exit         Ctrl+Q", 4)
 	
 	file_menu.get_popup().id_pressed.connect(Callable(self, "_on_file_item_selected"))
 	
@@ -20,6 +21,9 @@ func _ready() -> void:
 	edit_menu.get_popup().add_item("Delete       Ctrl+Del", 2)
 	
 	edit_menu.get_popup().id_pressed.connect(Callable(self, "_on_edit_item_selected"))
+	
+	var view_menu = $HBoxContainer/View
+	view_menu.get_popup().add_item("Fullscreen   Ctrl+F", 0)
 	
 	var help_menu = $HBoxContainer/Help
 	help_menu.get_popup().add_item("Readme", 0)
@@ -58,7 +62,8 @@ func _on_file_item_selected(id):
 		0: _new_file()
 		1: _open_file()
 		2: _export_image()
-		3: _close_program()
+		3: _close_image()
+		4: _close_program()
 
 func _on_edit_item_selected(id):
 	match id:
@@ -73,6 +78,24 @@ func _on_help_item_selected(id):
 		2: OS.shell_open("https://www.youtube.com/@maeschdev")
 		3: OS.shell_open("https://github.com/MaeschDEV/pix-mix")
 		4: print("About")
+
+func _close_image():
+	if (get_tree().current_scene.name == "Node2D"):
+		Global.interactable.emit(false)
+		var dialog = ConfirmationDialog.new()
+		dialog.title = "Close image"
+		dialog.dialog_text = "Are you sure you want to close the image?\nAll usaved changes will be deleted!"
+		
+		dialog.canceled.connect(Callable(self, "_canceled_closing"))
+		dialog.confirmed.connect(Callable(self, "_confirm_closing_image"))
+		
+		add_child(dialog)
+		dialog.popup_centered()
+		dialog.show()
+
+func _confirm_closing_image():
+	Global.interactable.emit(true)
+	get_tree().change_scene_to_file("res://scenes/startup.tscn")
 
 func _close_program():
 	Global.interactable.emit(false)
@@ -95,25 +118,29 @@ func _confirm_closing():
 	get_tree().quit()
 
 func _export_image():
-	Global.interactable.emit(false)
-	var fileDialog = FileDialog.new()
-	fileDialog.title = "Export the image"
-	fileDialog.add_filter("*.png")
-	fileDialog.use_native_dialog = true
-	fileDialog.dialog_hide_on_ok = true
-	
-	fileDialog.canceled.connect(Callable(self, "_canceled_closing"))
-	fileDialog.file_selected.connect(Callable(self, "_on_exported"))
-	
-	fileDialog.show()
+	if (get_tree().current_scene.name == "Node2D"):
+		Global.interactable.emit(false)
+		var fileDialog = FileDialog.new()
+		fileDialog.title = "Export the image"
+		fileDialog.add_filter("*.png")
+		fileDialog.use_native_dialog = true
+		fileDialog.dialog_hide_on_ok = true
+		
+		fileDialog.canceled.connect(Callable(self, "_canceled_closing"))
+		fileDialog.file_selected.connect(Callable(self, "_on_exported"))
+		
+		fileDialog.show()
 
 func _on_exported(dir: String):
 	Global.interactable.emit(true)
 	Global.export.emit(dir)
 
 func _new_file():
-	Global.interactable.emit(false)
-	$"New Image".show()
+	if (get_tree().current_scene.name != "Node2D"):
+		get_tree().change_scene_to_file("res://scenes/paint_window.tscn")
+	else:
+		Global.interactable.emit(false)
+		$"New Image".show()
 
 func _on_new_image_canceled() -> void:
 	Global.interactable.emit(true)
@@ -122,22 +149,26 @@ func _on_new_image_confirmed() -> void:
 	Global.interactable.emit(true)
 	var x = $"New Image/VBoxContainer/SpinBox".value
 	var y = $"New Image/VBoxContainer/SpinBox".value
+	
 	Global.newImage.emit(Vector2(x, y))
 	$"New Image".hide()
 
 func _open_file():
-	Global.interactable.emit(false)
-	var openDialog = FileDialog.new()
-	openDialog.title = "Open Image"
-	openDialog.file_mode = 0
-	openDialog.add_filter("*.png, *.jpg")
-	openDialog.use_native_dialog = true
-	openDialog.dialog_hide_on_ok = true
-	
-	openDialog.canceled.connect(Callable(self, "_canceled_closing"))
-	openDialog.file_selected.connect(Callable(self, "_on_opened"))
-	
-	openDialog.show()
+	if (get_tree().current_scene.name != "Node2D"):
+		get_tree().change_scene_to_file("res://scenes/paint_window.tscn")
+	else:
+		Global.interactable.emit(false)
+		var openDialog = FileDialog.new()
+		openDialog.title = "Open Image"
+		openDialog.file_mode = 0
+		openDialog.add_filter("*.png, *.jpg")
+		openDialog.use_native_dialog = true
+		openDialog.dialog_hide_on_ok = true
+		
+		openDialog.canceled.connect(Callable(self, "_canceled_closing"))
+		openDialog.file_selected.connect(Callable(self, "_on_opened"))
+		
+		openDialog.show()
 
 func _on_opened(dir: String):
 	Global.interactable.emit(true)

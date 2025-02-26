@@ -1,0 +1,228 @@
+[gd_scene load_steps=8 format=3 uid="uid://cqcibsn6cc4nl"]
+
+[ext_resource type="Script" path="res://scripts/startup.gd" id="1_8vdbq"]
+[ext_resource type="PackedScene" uid="uid://rfktnw72t53b" path="res://scenes/Top Bar.tscn" id="1_whqv0"]
+[ext_resource type="Texture2D" uid="uid://cat50ye1pxwmf" path="res://graphics/Startup Menu/Background.png" id="2_26cc1"]
+[ext_resource type="Texture2D" uid="uid://h5dnxb17crr" path="res://export/icon.png" id="3_dnshv"]
+[ext_resource type="Texture2D" uid="uid://dviv5jdrl4o8l" path="res://graphics/Startup Menu/New Image.png" id="4_y67ad"]
+[ext_resource type="Texture2D" uid="uid://drf5q6yhf0sip" path="res://graphics/Startup Menu/Open Image.png" id="5_t6800"]
+[ext_resource type="FontFile" uid="uid://bqjo7um15e1xc" path="res://fonts/Minecraft.ttf" id="6_bpnd3"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8vdbq")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_26cc1")
+stretch_mode = 3
+
+[node name="Control" parent="." instance=ExtResource("1_whqv0")]
+layout_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 100.0
+offset_right = 239.0
+offset_bottom = 151.0
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(51, 51)
+layout_mode = 2
+texture = ExtResource("3_dnshv")
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 48
+text = " PIX-MIX"
+vertical_alignment = 1
+
+[node name="New Image" type="Button" parent="."]
+layout_mode = 2
+offset_left = 30.0
+offset_top = 200.0
+offset_right = 303.0
+offset_bottom = 271.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="New Image"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -126.5
+offset_top = -25.5
+offset_right = 108.5
+offset_bottom = 25.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="New Image/HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(51, 51)
+layout_mode = 2
+texture = ExtResource("4_y67ad")
+
+[node name="Label" type="Label" parent="New Image/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 48
+text = " New Image"
+vertical_alignment = 1
+
+[node name="Open Image" type="Button" parent="."]
+layout_mode = 2
+offset_left = 30.0
+offset_top = 275.0
+offset_right = 303.0
+offset_bottom = 346.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Open Image"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -117.5
+offset_top = -25.5
+offset_right = 117.5
+offset_bottom = 25.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Open Image/HBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(51, 51)
+layout_mode = 2
+texture = ExtResource("5_t6800")
+
+[node name="Label" type="Label" parent="Open Image/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 48
+text = " Open Image"
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 40.0
+offset_top = 363.0
+offset_right = 312.0
+offset_bottom = 403.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "Patreons:"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 400.0
+offset_right = 303.0
+offset_bottom = 608.0
+color = Color(0.121569, 0.152941, 0.184314, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 400.0
+offset_right = 303.0
+offset_bottom = 608.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Name"
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 330.0
+offset_top = 100.0
+offset_right = 1122.0
+offset_bottom = 608.0
+color = Color(0.121569, 0.152941, 0.184314, 1)
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 340.0
+offset_top = 150.0
+offset_right = 1122.0
+offset_bottom = 608.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer2"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="ScrollContainer2/VBoxContainer/VBoxContainer/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Header"
+
+[node name="Author" type="Label" parent="ScrollContainer2/VBoxContainer/VBoxContainer/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.784314, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = " Author"
+
+[node name="Date" type="Label" parent="ScrollContainer2/VBoxContainer/VBoxContainer/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.784314, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = " Date"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ScrollContainer2/VBoxContainer/VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(750, 100)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("6_bpnd3")
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+text = "
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in dapibus ex. Etiam sagittis lobortis porta. Pellentesque laoreet tellus et libero suscipit luctus. Quisque vitae fermentum mauris. Cras auctor mi ipsum, non ultricies purus finibus eget. Integer euismod nibh vitae dolor convallis pretium. Morbi arcu lacus, tincidunt eget diam vitae, euismod dapibus velit. Donec elementum dui eleifend vestibulum eleifend."
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_left = 340.0
+offset_top = 100.0
+offset_right = 412.0
+offset_bottom = 138.0
+theme_override_font_sizes/font_size = 48
+text = "News"
+
+[connection signal="button_down" from="New Image" to="." method="_on_new_image_button_down"]
+[connection signal="button_down" from="Open Image" to="." method="_on_open_image_button_down"]

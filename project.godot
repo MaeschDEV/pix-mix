@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Pix-Mix"
 config/version="1.0.0"
-run/main_scene="res://scenes/paint_window.tscn"
+run/main_scene="res://scenes/startup.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://export/icon.png"
 config/windows_native_icon="res://export/icon.ico"
@@ -24,7 +24,7 @@ Global="*res://scripts/Global.gd"
 [display]
 
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/aspect="ignore"
 
 [gui]
 
