@@ -11,7 +11,8 @@ config_version=5
 [application]
 
 config/name="Pix-Mix"
-config/version="1.0.0"
+config/description="Pix-Mix by MaeschDEV"
+config/version="0.0.1"
 run/main_scene="res://scenes/startup.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://export/icon.png"
@@ -20,6 +21,10 @@ config/windows_native_icon="res://export/icon.ico"
 [autoload]
 
 Global="*res://scripts/Global.gd"
+
+[debug]
+
+file_logging/enable_file_logging=true
 
 [display]
 

@@ -43,12 +43,12 @@ func _ready() -> void:
 	image_menu.get_popup().mouse_exited.connect(Callable(self, "_can_draw"))
 	
 	var help_menu = $HBoxContainer/Help
-	help_menu.get_popup().add_item("Handbook", 0)
+	help_menu.get_popup().add_item("Pix-Mix Wiki", 0)
 	help_menu.get_popup().add_separator()
 	help_menu.get_popup().add_item("Report a bug", 1)
+	help_menu.get_popup().add_item("Give Feedback", 2)
 	help_menu.get_popup().add_separator()
-	help_menu.get_popup().add_item("Become a patreon member", 2)
-	help_menu.get_popup().add_item("Blog post", 3)
+	help_menu.get_popup().add_item("Become a patreon member", 3)
 	help_menu.get_popup().add_separator()
 	help_menu.get_popup().add_item("About Pix-Mix", 4)
 	help_menu.get_popup().add_item("Readme", 5)
@@ -116,11 +116,12 @@ func _on_image_item_selected(id):
 
 func _on_help_item_selected(id):
 	match id:
-		0: OS.shell_open("https://github.com/MaeschDEV/pix-mix/blob/2cd2d641a6261d4d8a035c8ebbfde283d543db8b/README.md")
-		1: OS.shell_open("https://www.patreon.com/c/MaeschDEV")
-		2: OS.shell_open("https://www.youtube.com/@maeschdev")
-		3: OS.shell_open("https://github.com/MaeschDEV/pix-mix")
-		4: print("About")
+		0: OS.shell_open("https://github.com/MaeschDEV/Pix-Mix/wiki")
+		1: OS.shell_open("https://github.com/MaeschDEV/Pix-Mix/issues/new?template=bug_report.md")
+		2: OS.shell_open("https://github.com/MaeschDEV/Pix-Mix/issues/new?template=feature_request.md")
+		3: OS.shell_open("https://www.patreon.com/c/MaeschDEV")
+		4: OS.shell_open("https://github.com/MaeschDEV/Pix-Mix/blob/main/about.md")
+		5: OS.shell_open("https://github.com/MaeschDEV/Pix-Mix/blob/main/README.md")
 
 func _close_image():
 	if (get_tree().current_scene.name == "Node2D"):
@@ -204,6 +205,7 @@ func _open_file():
 		var openDialog = FileDialog.new()
 		openDialog.title = "Open Image"
 		openDialog.file_mode = 0
+		openDialog.access = 2
 		openDialog.add_filter("*.png, *.jpg")
 		openDialog.use_native_dialog = true
 		openDialog.dialog_hide_on_ok = true
