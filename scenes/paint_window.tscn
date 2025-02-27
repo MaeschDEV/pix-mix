@@ -1,12 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://c384itwib7yio"]
+[gd_scene load_steps=6 format=3 uid="uid://c384itwib7yio"]
 
 [ext_resource type="Script" path="res://scripts/paint_window.gd" id="1_x5dld"]
 [ext_resource type="PackedScene" uid="uid://q46nbajyyr80" path="res://scenes/Tools UI.tscn" id="2_fu0l6"]
+[ext_resource type="Texture2D" uid="uid://cat50ye1pxwmf" path="res://graphics/Startup Menu/Background.png" id="2_v0bo4"]
 [ext_resource type="PackedScene" uid="uid://rfktnw72t53b" path="res://scenes/Top Bar.tscn" id="3_714xb"]
 [ext_resource type="Texture2D" uid="uid://fht7m0nka01e" path="res://graphics/border.png" id="4_cwnl7"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_x5dld")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_v0bo4")
+stretch_mode = 3
 
 [node name="Control" parent="." instance=ExtResource("2_fu0l6")]
 anchors_preset = 8

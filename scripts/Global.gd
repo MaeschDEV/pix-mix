@@ -12,6 +12,8 @@ signal fill
 signal line
 signal rect
 
+signal rotate(amount: int)
+
 signal newImage(size: Vector2)
 signal open(dir: String)
 

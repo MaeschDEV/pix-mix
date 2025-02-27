@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bepv2j283g045"]
+
+[node name="VBoxContainer" type="VBoxContainer"]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+text = "Header"
+
+[node name="Author" type="Label" parent="HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.784314, 0, 0, 1)
+text = " Author"
+
+[node name="Date" type="Label" parent="HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.784314, 0, 1)
+text = " Date"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+texture_filter = 1
+custom_minimum_size = Vector2(750, 100)
+layout_mode = 2
+bbcode_enabled = true
+text = "
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam in dapibus ex. Etiam sagittis lobortis porta. Pellentesque laoreet tellus et libero suscipit luctus. Quisque vitae fermentum mauris. Cras auctor mi ipsum, non ultricies purus finibus eget. Integer euismod nibh vitae dolor convallis pretium. Morbi arcu lacus, tincidunt eget diam vitae, euismod dapibus velit. Donec elementum dui eleifend vestibulum eleifend.
+
+"
+
+[node name="HSeparator" type="HSeparator" parent="."]
+layout_mode = 2

@@ -69,6 +69,8 @@ func _ready() -> void:
 	Global.delete.connect(Callable(self, "_on_delete"))
 	Global.export.connect(Callable(self, "_on_export"))
 	
+	Global.rotate.connect(Callable(self, "_on_rotate"))
+	
 	current_state = STATE.DRAW
 	
 	Global.ui_scene.get_node("ColorPicker").color = Color(0, 0, 0, 1)
@@ -515,3 +517,18 @@ func _change_cursor():
 				Input.set_custom_mouse_cursor(cursor_bucket, Input.CURSOR_ARROW, Vector2(0, 12))
 	else:
 		Input.set_custom_mouse_cursor(null)
+
+func _on_rotate(amount: int):
+	match amount:
+		90:
+			images[1].rotate_90(CLOCKWISE)
+			textures[1].update(images[1])
+			layers[1].texture = textures[1]
+		-90:
+			images[1].rotate_90(COUNTERCLOCKWISE)
+			textures[1].update(images[1])
+			layers[1].texture = textures[1]
+		180:
+			images[1].rotate_180()
+			textures[1].update(images[1])
+			layers[1].texture = textures[1]

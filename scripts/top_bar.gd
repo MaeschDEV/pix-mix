@@ -13,6 +13,8 @@ func _ready() -> void:
 	file_menu.get_popup().add_item("Exit         Ctrl+Q", 4)
 	
 	file_menu.get_popup().id_pressed.connect(Callable(self, "_on_file_item_selected"))
+	file_menu.get_popup().mouse_entered.connect(Callable(self, "_cant_draw"))
+	file_menu.get_popup().mouse_exited.connect(Callable(self, "_can_draw"))
 	
 	var edit_menu = $HBoxContainer/Edit
 	edit_menu.get_popup().add_item("Undo         Ctrl+Z", 0)
@@ -21,16 +23,24 @@ func _ready() -> void:
 	edit_menu.get_popup().add_item("Delete       Ctrl+Del", 2)
 	
 	edit_menu.get_popup().id_pressed.connect(Callable(self, "_on_edit_item_selected"))
+	edit_menu.get_popup().mouse_entered.connect(Callable(self, "_cant_draw"))
+	edit_menu.get_popup().mouse_exited.connect(Callable(self, "_can_draw"))
 	
 	var view_menu = $HBoxContainer/View
 	view_menu.get_popup().add_item("Fullscreen   Ctrl+F", 0)
 	
 	view_menu.get_popup().id_pressed.connect(Callable(self, "_on_view_item_selected"))
+	view_menu.get_popup().mouse_entered.connect(Callable(self, "_cant_draw"))
+	view_menu.get_popup().mouse_exited.connect(Callable(self, "_can_draw"))
 	
 	var image_menu = $HBoxContainer/Image
 	image_menu.get_popup().add_item("Rotate 90° right", 0)
 	image_menu.get_popup().add_item("Rotate 90° left", 1)
 	image_menu.get_popup().add_item("Rotate 180°", 2)
+	
+	image_menu.get_popup().id_pressed.connect(Callable(self, "_on_image_item_selected"))
+	image_menu.get_popup().mouse_entered.connect(Callable(self, "_cant_draw"))
+	image_menu.get_popup().mouse_exited.connect(Callable(self, "_can_draw"))
 	
 	var help_menu = $HBoxContainer/Help
 	help_menu.get_popup().add_item("Handbook", 0)
@@ -44,6 +54,8 @@ func _ready() -> void:
 	help_menu.get_popup().add_item("Readme", 5)
 	
 	help_menu.get_popup().id_pressed.connect(Callable(self, "_on_help_item_selected"))
+	help_menu.get_popup().mouse_entered.connect(Callable(self, "_cant_draw"))
+	help_menu.get_popup().mouse_exited.connect(Callable(self, "_can_draw"))
 
 func _input(event: InputEvent) -> void:	
 	if (event is InputEventKey and event.is_pressed() and not event.keycode in pressed_keys):
@@ -68,6 +80,12 @@ func _input(event: InputEvent) -> void:
 	elif (event is InputEventKey and not event.is_pressed() and event.keycode in pressed_keys):
 		pressed_keys.erase(event.keycode)
 
+func _cant_draw():
+	Global.interactable.emit(false)
+
+func _can_draw():
+	Global.interactable.emit(true)
+
 func _on_file_item_selected(id):
 	match id:
 		0: _new_file()
@@ -89,6 +107,12 @@ func _on_view_item_selected(id):
 				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 			else:
 				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+func _on_image_item_selected(id):
+	match id:
+		0: Global.rotate.emit(90)
+		1: Global.rotate.emit(-90)
+		2: Global.rotate.emit(180)
 
 func _on_help_item_selected(id):
 	match id:
