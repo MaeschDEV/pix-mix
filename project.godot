@@ -24,13 +24,12 @@ Global="*res://scripts/Global.gd"
 [display]
 
 window/stretch/mode="canvas_items"
-window/stretch/aspect="ignore"
 
 [gui]
 
 theme/custom="res://fonts/default_theme.tres"
-theme/custom_font="res://fonts/PixMix.ttf"
+theme/custom_font="res://fonts/Monocraft.ttc"
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0.396078, 0.333333, 0.380392, 1)
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

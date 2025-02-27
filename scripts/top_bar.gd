@@ -25,14 +25,23 @@ func _ready() -> void:
 	var view_menu = $HBoxContainer/View
 	view_menu.get_popup().add_item("Fullscreen   Ctrl+F", 0)
 	
+	view_menu.get_popup().id_pressed.connect(Callable(self, "_on_view_item_selected"))
+	
+	var image_menu = $HBoxContainer/Image
+	image_menu.get_popup().add_item("Rotate 90° right", 0)
+	image_menu.get_popup().add_item("Rotate 90° left", 1)
+	image_menu.get_popup().add_item("Rotate 180°", 2)
+	
 	var help_menu = $HBoxContainer/Help
-	help_menu.get_popup().add_item("Readme", 0)
+	help_menu.get_popup().add_item("Handbook", 0)
 	help_menu.get_popup().add_separator()
-	help_menu.get_popup().add_item("Patreon", 1)
-	help_menu.get_popup().add_item("YouTube", 2)
-	help_menu.get_popup().add_item("Github", 3)
+	help_menu.get_popup().add_item("Report a bug", 1)
 	help_menu.get_popup().add_separator()
-	help_menu.get_popup().add_item("About", 4)
+	help_menu.get_popup().add_item("Become a patreon member", 2)
+	help_menu.get_popup().add_item("Blog post", 3)
+	help_menu.get_popup().add_separator()
+	help_menu.get_popup().add_item("About Pix-Mix", 4)
+	help_menu.get_popup().add_item("Readme", 5)
 	
 	help_menu.get_popup().id_pressed.connect(Callable(self, "_on_help_item_selected"))
 
@@ -53,6 +62,8 @@ func _input(event: InputEvent) -> void:
 			_on_edit_item_selected(1)
 		elif (event.ctrl_pressed and event.keycode == KEY_DELETE):
 			_on_edit_item_selected(2)
+		elif (event.ctrl_pressed and event.keycode == KEY_F):
+			_on_view_item_selected(0)
 		
 	elif (event is InputEventKey and not event.is_pressed() and event.keycode in pressed_keys):
 		pressed_keys.erase(event.keycode)
@@ -70,6 +81,14 @@ func _on_edit_item_selected(id):
 		0: Global.undo.emit()
 		1: Global.redo.emit()
 		2: Global.delete.emit()
+
+func _on_view_item_selected(id):
+	match id:
+		0:
+			if (DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED):
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+			else:
+				DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 func _on_help_item_selected(id):
 	match id:
