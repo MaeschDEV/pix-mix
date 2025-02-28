@@ -10,7 +10,7 @@ Pix-Mix is a creative pixel art app that allows you to easily create, edit and e
 
 ## 📥 Installation
 💻 Desktop
-Download the latest version of Pix-Mix [here](https://www.google.com/).
+Download the latest version of Pix-Mix [here](https://github.com/MaeschDEV/pix-mix/releases).
 
 Available for
 - Windows
