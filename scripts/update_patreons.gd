@@ -8,6 +8,7 @@ func _ready() -> void:
 	http_request.request(FIREBASE_URL)
 
 func _on_patreons_http_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	print("Request Send!")
 	if response_code == 200:
 		print("Response code IS 200!")
 		var json = JSON.parse_string(body.get_string_from_utf8())

@@ -15,8 +15,8 @@ config/description="Pix-Mix by MaeschDEV"
 config/version="0.0.1"
 run/main_scene="res://scenes/startup.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://export/icon.png"
-config/windows_native_icon="res://export/icon.ico"
+config/icon="res://graphics/App Icon/icon.png"
+config/windows_native_icon="res://graphics/App Icon/icon.ico"
 
 [autoload]
 
