@@ -52,6 +52,8 @@ func _ready() -> void:
 	help_menu.get_popup().add_separator()
 	help_menu.get_popup().add_item("About Pix-Mix", 4)
 	help_menu.get_popup().add_item("Readme", 5)
+	help_menu.get_popup().add_separator()
+	help_menu.get_popup().add_item("Version: 0.0.2")
 	
 	help_menu.get_popup().id_pressed.connect(Callable(self, "_on_help_item_selected"))
 	help_menu.get_popup().mouse_entered.connect(Callable(self, "_cant_draw"))
@@ -116,12 +118,12 @@ func _on_image_item_selected(id):
 
 func _on_help_item_selected(id):
 	match id:
-		0: OS.shell_open("https://github.com/MaeschDEV/Pix-Mix/wiki")
-		1: OS.shell_open("https://github.com/MaeschDEV/Pix-Mix/issues/new?template=bug_report.md")
-		2: OS.shell_open("https://github.com/MaeschDEV/Pix-Mix/issues/new?template=feature_request.md")
+		0: OS.shell_open("https://github.com/MaeschDEV/pix-mix/wiki")
+		1: OS.shell_open("https://github.com/MaeschDEV/pix-mix/issues/new?template=bug_report.md")
+		2: OS.shell_open("htthttps://github.com/MaeschDEV/pix-mix/issues/new?template=feature_request.md")
 		3: OS.shell_open("https://www.patreon.com/c/MaeschDEV")
-		4: OS.shell_open("https://github.com/MaeschDEV/Pix-Mix/blob/main/about.md")
-		5: OS.shell_open("https://github.com/MaeschDEV/Pix-Mix/blob/main/README.md")
+		4: OS.shell_open("https://github.com/MaeschDEV/pix-mix/blob/main/about.md")
+		5: OS.shell_open("https://github.com/MaeschDEV/pix-mix/blob/main/README.md")
 
 func _close_image():
 	if (get_tree().current_scene.name == "Node2D"):

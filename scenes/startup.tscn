@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/startup.gd" id="1_8vdbq"]
 [ext_resource type="PackedScene" uid="uid://rfktnw72t53b" path="res://scenes/Top Bar.tscn" id="1_whqv0"]
 [ext_resource type="Texture2D" uid="uid://cat50ye1pxwmf" path="res://graphics/Startup Menu/Background.png" id="2_26cc1"]
-[ext_resource type="Texture2D" uid="uid://h5dnxb17crr" path="res://export/icon.png" id="3_dnshv"]
+[ext_resource type="Texture2D" uid="uid://h5dnxb17crr" path="res://graphics/App Icon/icon.png" id="4_fybao"]
 [ext_resource type="Texture2D" uid="uid://dviv5jdrl4o8l" path="res://graphics/Startup Menu/New Image.png" id="4_y67ad"]
 [ext_resource type="Texture2D" uid="uid://drf5q6yhf0sip" path="res://graphics/Startup Menu/Open Image.png" id="5_t6800"]
 [ext_resource type="Script" path="res://scripts/update_blogs.gd" id="7_30bne"]
@@ -43,7 +43,7 @@ offset_bottom = 151.0
 texture_filter = 1
 custom_minimum_size = Vector2(51, 51)
 layout_mode = 2
-texture = ExtResource("3_dnshv")
+texture = ExtResource("4_fybao")
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 texture_filter = 1

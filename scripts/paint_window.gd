@@ -105,11 +105,6 @@ func _process(delta: float) -> void:
 	
 	if (!interactable):
 		return
-	
-	if Input.is_key_pressed(KEY_L):
-		var capture = get_viewport().get_texture().get_image()
-		var filename = "res://screenshot.png"
-		capture.save_png(filename)
 
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):		
 		mouseHold = true
