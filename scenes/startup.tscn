@@ -124,6 +124,7 @@ text = " Open Image"
 vertical_alignment = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
+visible = false
 texture_filter = 1
 layout_mode = 0
 offset_left = 40.0
@@ -135,6 +136,7 @@ bbcode_enabled = true
 text = "Patreons:"
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 30.0
 offset_top = 400.0
@@ -143,6 +145,7 @@ offset_bottom = 608.0
 color = Color(0.121569, 0.152941, 0.184314, 1)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 40.0
 offset_top = 410.0
@@ -154,6 +157,7 @@ layout_mode = 2
 script = ExtResource("7_xgl2o")
 
 [node name="ColorRect2" type="ColorRect" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 330.0
 offset_top = 100.0
@@ -162,6 +166,7 @@ offset_bottom = 608.0
 color = Color(0.121569, 0.152941, 0.184314, 1)
 
 [node name="ScrollContainer2" type="ScrollContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 340.0
 offset_top = 150.0
@@ -176,6 +181,7 @@ script = ExtResource("7_30bne")
 layout_mode = 2
 
 [node name="Label" type="Label" parent="."]
+visible = false
 texture_filter = 1
 layout_mode = 0
 offset_left = 340.0
